@@ -24,7 +24,7 @@ jobs:
     - name: Install Bubblewrap
       run: npm install -g @bubblewrap/cli
 
-    - name: Build TWA (AAB)
+    - name: Build TWA AAB
       run: bubblewrap build
 
     - name: Upload AAB
