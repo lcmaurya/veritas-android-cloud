@@ -1,4 +1,4 @@
-name: Build Android APK (Cordova)
+name: Build Android APK
 
 on:
   push:
@@ -10,33 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Setup Java
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Install Cordova
-        run: npm install -g cordova
-
-      - name: Add Android Platform
-        run: |
-          cordova platform remove android || true
-          cordova platform add android
-
       - name: Build Debug APK
-        run: cordova build android
+        run: |
+          sudo apt update
+          sudo apt install -y gradle
+          gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: veritasengine-apk
-          path: platforms/android/app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/debug/*.apk
